@@ -3,6 +3,17 @@ from binary_search_tree import Tree
 
 class Sort():
     @staticmethod
+    def __swap(i: int, j: int, items: list):
+        """Swaps elements of the specified list at the indices i and j
+
+        Args:
+            i (int): Index to element to swap
+            j (int): Index of element to swap
+            items (list): List to swap elements
+        """
+        items[i], items[j] = items[j], items[i]
+
+    @staticmethod
     def bubble_sort(items: list):
         """Performs bubble sort on the specified list.<br>
         Continuously iterates through the list and swaps adjacent item pairs
@@ -27,7 +38,7 @@ class Sort():
             for j in range(0, len(items) - 1):
                 if items[j] > items[j + 1]:
                     # Swaps adjacent items
-                    items[j], items[j + 1] = items[j + 1], items[j]
+                    Sort.__swap(j, j + 1, items)
                     swapped = True
 
     @staticmethod
@@ -38,7 +49,8 @@ class Sort():
 
         Comparision sort, in-place, unstable
 
-        Time complexity: O(n^2) all cases
+        Time complexity: O(n^2) all cases<br>
+        Memory space: O(1)
 
         Args:
             items (list): The list to sort
@@ -51,7 +63,7 @@ class Sort():
                     min_index = j
 
             # Swaps current index with minimum item
-            items[i], items[min_index] = items[min_index], items[i]
+            Sort.__swap(i, min_index, items)
 
     @staticmethod
     def insertion_sort(items: list):
@@ -65,13 +77,15 @@ class Sort():
         <li>O(n^2) worst/average case</li>
         <li>O(n) best case (already sorted)</li>
 
+        Memory space: O(1)
+
         Args:
             items (list): The list to sort
         """
         for i in range(1, len(items)):
             j = i
             while j > 0 and items[j] < items[j - 1]:
-                items[j], items[j - 1] = items[j - 1], items[j]
+                Sort.__swap(j, j - 1, items)
                 j -= 1
 
     @staticmethod
@@ -113,7 +127,7 @@ class Sort():
 
             # Keeps bubbling up if greater
             while parent_index >= 0 and items[i] > items[parent_index]:
-                items[i], items[parent_index] = items[parent_index], items[i]
+                Sort.__swap(i, parent_index, items)
 
                 i = (i - 1) // 2
                 parent_index = (i - 1) // 2
@@ -121,7 +135,7 @@ class Sort():
         # Continuously removes items from max heap
         heap_end = len(items) - 1
         while heap_end > 0:
-            items[0], items[heap_end] = items[heap_end], items[0]
+            Sort.__swap(0, heap_end, items)
 
             current = 0
             while current < heap_end:
@@ -134,7 +148,7 @@ class Sort():
                         next = right
 
                 if next < heap_end and items[next] > items[current]:
-                    items[current], items[next] = items[next], items[current]
+                    Sort.__swap(current, next, items)
 
                 current = next
 
@@ -184,7 +198,7 @@ class Sort():
         Args:
             items (list): The list to sort
         """
-        items[:] = Sort.__merge_sort(items)  # Shallow copy
+        items[:] = Sort.__merge_sort(items)
 
     @staticmethod
     def __merge_sort(items: list) -> list:
