@@ -94,7 +94,7 @@ class Sort():
         Iterates through the tree using in-order depth-first search and copies 
         the items in sorted order into the original list.
 
-        Comparision sort, not in-place, unstable
+        Comparision sort, not in-place, stable
 
         Time complexity:
         <li>O(n^2) worst case (already sorted)</li>
