@@ -22,10 +22,10 @@ class Sort():
         Comparision sort, in-place, stable
 
         Time complexity: 
-        <li>O(n^2) worst/average case</li>
-        <li>O(n) best case (already sorted)</li>
+        <li>Θ(n^2) worst/average case</li>
+        <li>Θ(n) best case (already sorted)</li>
 
-        Memory space: O(1)
+        Memory space: Θ(1)
 
         Args:
             items (list): The list to sort
@@ -49,8 +49,8 @@ class Sort():
 
         Comparision sort, in-place, unstable
 
-        Time complexity: O(n^2) all cases<br>
-        Memory space: O(1)
+        Time complexity: Θ(n^2) all cases<br>
+        Memory space: Θ(1)
 
         Args:
             items (list): The list to sort
@@ -74,10 +74,10 @@ class Sort():
         Comparision sort, in-place, stable
 
         Time complexity:
-        <li>O(n^2) worst/average case</li>
-        <li>O(n) best case (already sorted)</li>
+        <li>Θ(n^2) worst/average case</li>
+        <li>Θ(n) best case (already sorted)</li>
 
-        Memory space: O(1)
+        Memory space: Θ(1)
 
         Args:
             items (list): The list to sort
@@ -97,8 +97,10 @@ class Sort():
         Comparision sort, not in-place, stable
 
         Time complexity:
-        <li>O(n^2) worst case (already sorted)</li>
-        <li>O(nlog(n)) average/best case</li>
+        <li>Θ(n^2) worst case (already sorted)</li>
+        <li>Θ(nlg(n)) average/best case</li>
+
+        Memory space: Θ(n)
 
         Args:
             items (list): The list to sort
@@ -116,7 +118,8 @@ class Sort():
 
         Comparision sort, in-place, unstable
 
-        Time complexity: O(nlog(n)) all cases
+        Time complexity: Θ(nlg(n)) all cases
+        Memory space: Θ(1)
 
         Args:
             items (list): The list to sort
@@ -161,8 +164,8 @@ class Sort():
         Comparision sort, in-place, unstable
 
         Time complexity:
-        <li>O(n^2) worst case</li>
-        <li>O(nlog(n)) average/best case</li>
+        <li>Θ(n^2) worst case</li>
+        <li>Θ(nlg(n)) average/best case</li>
 
         Args:
             items (list): The list to sort
@@ -193,7 +196,8 @@ class Sort():
 
         Comparision sort, not in-place, stable
 
-        Time complexity: O(nlog(n)) all cases
+        Time complexity: Θ(nlg(n)) all cases
+        Memory space: Θ(n)
 
         Args:
             items (list): The list to sort
@@ -208,7 +212,7 @@ class Sort():
 
         Comparision sort, not in-place, stable
 
-        Time complexity: O(nlog(n)) all cases
+        Time complexity: Θ(nlg(n)) all cases
 
         Args:
             items (list): The list to sort
@@ -232,6 +236,9 @@ class Sort():
     def __merge(left: list, right: list) -> list:
         """Merges two lists together in sorted order.
 
+        Time complexity: Θ(n)
+        Memory space: Θ(n)
+
         Args:
             left (list): One of the two lists to combine
             right (list): One of the two lists to combine
@@ -243,7 +250,7 @@ class Sort():
         left_index = 0
 
         while right:
-            if left_index >= len(left) or left[left_index] > right[0]:
+            if left_index >= len(left) or right[0] < left[left_index]:
                 left.insert(left_index, right.pop(0))
 
             left_index += 1
@@ -257,7 +264,7 @@ class Sort():
 
         Linear sort, not in-place, stable
 
-        Time complexity: O(n + k) all cases where k is the range of item values
+        Time complexity: Θ(n + k) all cases where k is the range of item values
 
         Args:
             items (list): The list to sort
@@ -272,7 +279,7 @@ class Sort():
 
         Linear sort, in-place, stable
 
-        Time complexity: O(n)
+        Time complexity: Θ(n)
 
         Args:
             items (list): The list to sort
