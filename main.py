@@ -1,12 +1,13 @@
 from binary_search_tree import Tree
 from point import Point
 from sort import Sort
+from justin import justinheapsort
 
 from random import randint
 from time import perf_counter
 from math import log2, ceil
 
-def is_sorted(list):
+def is_sorted(items):
     """Determines whether the list is in sorted order
 
     Args:
@@ -15,8 +16,8 @@ def is_sorted(list):
     Returns:
         bool: Whether if the list is sorted
     """
-    for i in range(1, len(list)):
-        if list[i - 1] > list[i]:
+    for i in range(1, len(items)):
+        if items[i - 1] > items[i]:
             return False
         
     return True
@@ -41,6 +42,13 @@ def testSorting(sorting_method, n):
     print(f'"{sorting_method.__name__}" sort on list of size {n}: {success}')
 
 def timeSorting(sorting_method, items):
+    """Prints the time a sorting algorithm took to sort a list. Does not create
+    a copy of the list
+
+    Args:
+        sorting_method (function): The sorting algorithm to test
+        items (list): The list used to time a sort
+    """
     start_time = perf_counter()
     sorting_method(items)
     total_time = perf_counter() - start_time
@@ -49,7 +57,6 @@ def timeSorting(sorting_method, items):
 
 def binary_search(items, element):
     index = -1
-
     start = 0
     end = len(items) - 1
 
@@ -69,7 +76,5 @@ def binary_search(items, element):
     return index
 
 
-
 if __name__ == '__main__':
     pass
-    

@@ -1,4 +1,5 @@
 from binary_search_tree import Tree
+from math import log2
 
 
 class Sort():
@@ -118,44 +119,43 @@ class Sort():
 
         Comparision sort, in-place, unstable
 
-        Time complexity: Θ(nlg(n)) all cases
+        Time complexity: 
+        <li>Θ(nlg(n)) worst/average case</li>
+        <li>Θ(n) best case (all elements are identical)</li>
+        
         Memory space: Θ(1)
 
         Args:
             items (list): The list to sort
         """
-        # Adds each item into heap
-        for i in range(1, len(items)):
-            parent_index = (i - 1) // 2
 
-            # Keeps bubbling up if greater
-            while parent_index >= 0 and items[i] > items[parent_index]:
-                Sort.__swap(i, parent_index, items)
-
-                i = (i - 1) // 2
-                parent_index = (i - 1) // 2
+        # Converts list into max heap
+        heap_end = len(items) - 1
+        for i in range(heap_end // 2, -1, -1):
+            Sort.__heapify(i, heap_end, items)
 
         # Continuously removes items from max heap
-        heap_end = len(items) - 1
         while heap_end > 0:
             Sort.__swap(0, heap_end, items)
-
-            current = 0
-            while current < heap_end:
-                next = left = current * 2 + 1
-                right = current * 2 + 2
-
-                # Selects the larger of its two children, if any
-                if right < heap_end:
-                    if left >= heap_end or items[right] > items[left]:
-                        next = right
-
-                if next < heap_end and items[next] > items[current]:
-                    Sort.__swap(current, next, items)
-
-                current = next
-
+            Sort.__heapify(0, heap_end, items)
             heap_end -= 1
+
+    @staticmethod
+    def __heapify(index, heap_end, items: list):
+        current = index
+        while current < heap_end:
+            max_child = left = current * 2 + 1
+            right = current * 2 + 2
+
+            # Selects the larger of its two children, if any
+            if right < heap_end and items[right] > items[left]:
+                max_child = right
+
+            # Checks if the parent is larger than the child
+            if max_child < heap_end and items[max_child] > items[current]:
+                Sort.__swap(current, max_child, items)
+
+            current = max_child
 
     @staticmethod
     def quicksort(items: list):
@@ -221,16 +221,16 @@ class Sort():
             list: The left and right halfs of the list combined into a sorted
             list
         """
-        sorted = items
         if len(items) > 1:
             mid = len(items) // 2
 
             left = Sort.__merge_sort(items[:mid])
             right = Sort.__merge_sort(items[mid:])
 
-            sorted = Sort.__merge(left, right)
+            items = Sort.__merge(left, right)
+            print(items)
 
-        return sorted
+        return items
 
     @staticmethod
     def __merge(left: list, right: list) -> list:
