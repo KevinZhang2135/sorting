@@ -142,6 +142,14 @@ class Sort():
 
     @staticmethod
     def __heapify(index, heap_end, items: list):
+        """Assuming the left and right subtrees of a node at the index are max
+        heaps, convert the tree starting from the node into a max heap
+
+        Args:
+            index (integer): The index of the root of the tree
+            heap_end (integer): The length of a list representing a heap
+            items (list): The list representing a heap
+        """
         current = index
         while current < heap_end:
             max_child = left = current * 2 + 1
