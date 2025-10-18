@@ -5,7 +5,7 @@ from math import log2
 class Sort():
     @staticmethod
     def __swap(i: int, j: int, items: list):
-        """Swaps elements of the specified list at the indices i and j
+        """Swaps elements of the specified list at the indices i and j.
 
         Args:
             i (int): Index to element to swap
@@ -16,7 +16,8 @@ class Sort():
 
     @staticmethod
     def bubble_sort(items: list):
-        """Performs bubble sort on the specified list.<br>
+        """Performs bubble sort on the specified list. Modifies original list.
+        <br>
         Continuously iterates through the list and swaps adjacent item pairs
         until the list is sorted.
 
@@ -44,7 +45,8 @@ class Sort():
 
     @staticmethod
     def selection_sort(items: list):
-        """Performs selection sort on the specified list.<br>
+        """Performs selection sort on the specified list. Modifies original 
+        list.<br>
         Continuously iterates through the list and swaps the end of a growing
         sorted sublist with the minimum item of the remaining list.
 
@@ -68,7 +70,8 @@ class Sort():
 
     @staticmethod
     def insertion_sort(items: list):
-        """Performs insertion sort on the specified list.<br>
+        """Performs insertion sort on the specified list. Modifies original 
+        list.<br>
         Iterates through the list and inserts each item into a growing 
         sublist of sorted items.
 
@@ -91,7 +94,7 @@ class Sort():
 
     @staticmethod
     def tree_sort(items: list):
-        """Performs tree sort on a specified list.<br>
+        """Performs tree sort on a specified list. Modifies original list.<br>
         Iterates through the tree using in-order depth-first search and copies 
         the items in sorted order into the original list.
 
@@ -112,7 +115,7 @@ class Sort():
 
     @staticmethod
     def heapsort(items: list):
-        """Peforms heapsort on a specified list.<br>
+        """Peforms heapsort on a specified list. Modifies original list.<br>
         Transforms an unordered list into a max heap and continuously removes
         the top of the max heap to insert into the end of the list. Does not
         effectively use cashing.
@@ -142,8 +145,11 @@ class Sort():
 
     @staticmethod
     def __heapify(index, heap_end, items: list):
-        """Assuming the left and right subtrees of a node at the index are max
-        heaps, convert the tree starting from the node into a max heap
+        """Converts a sublist into a max heap.
+        Assuming the left and right subtrees of a node at the index are max
+        heaps, convert the tree starting from the node into a max heap.
+
+        Time complexity: Θ(lgn)
 
         Args:
             index (integer): The index of the root of the tree
@@ -167,7 +173,10 @@ class Sort():
 
     @staticmethod
     def quicksort(items: list):
-        """Performs quicksort on the specified list.<br>
+        """Performs quicksort on the specified list. Modifies original list.<br>
+        Partitions a list using the last element as a pivot key where 
+        - elements to the left of the pivot are less than and equal to the pivot
+        - elements to the right of the pivot
 
         Comparision sort, in-place, unstable
 
@@ -178,27 +187,68 @@ class Sort():
         Args:
             items (list): The list to sort
         """
-        pivot = items[-1]
-
+        Sort.__quicksort(items, 0, len(items) - 1)
+    
     @staticmethod
-    def __quicksort(items: list, start: int, stop: int) -> int:
-        """Performs quicksort on 
+    def __quicksort(items: list, start: int, stop: int):
+        """Performs quicksort on the specified list. Modifies original list.<br>
+        Partitions a list using the last element as a pivot key where 
+        - elements to the left of the pivot are less than and equal to the pivot
+        - elements to the right of the pivot
+
+        Comparision sort, in-place, unstable
+
+        Time complexity:
+        <li>Θ(n^2) worst case</li>
+        <li>Θ(nlg(n)) average/best case</li>
 
         Args:
-            items (list): _description_
-            start (int): _description_
-            stop (int): _description_
+            items (list): The list to sort
+        """
+        if start >= stop:
+            return
+
+        pivot_index = Sort.__lomuto_partition(items, start, stop)
+
+        Sort.__quicksort(items, start, pivot_index - 1)
+        Sort.__quicksort(items, pivot_index + 1, stop)
+
+    @staticmethod
+    def __lomuto_partition(items: list, start: int, stop: int) -> int:
+        """Splits a list into two halves.<br>
+        Using the last element as a pivot, a list is bisected so that 
+        - elements left of the pivot are smaller than or equal to it
+        - elements right of the pivot are larger than it
+
+        Time complexity: Θ(n)
+
+        Args:
+            items (list): The list to bisect
+            start (int): The start index of the sublist of the list
+            stop (int): The stop index of the sublist of the list
 
         Returns:
             int: The pivot index of quicksort
         """
-        left, right = start, stop
-        while left <= right:
-            pass
+
+        pivot_key = items[stop]
+        pivot_index = start
+
+        for inversion_index in range(start, stop):
+            if items[inversion_index] <= pivot_key:
+                Sort.__swap(pivot_index, inversion_index, items)
+                pivot_index += 1
+
+        Sort.__swap(pivot_index, stop, items)
+        return pivot_index
+    
+    @staticmethod
+    def __hoare_partition(items: list, start: int, stop: int) -> int:
+         pass
 
     @staticmethod
     def merge_sort(items: list):
-        """Performs merge sort on a specified list.<br>
+        """Performs merge sort on a specified list. Modifies original list.<br>
         Uses divide and conquer by continuously halfing the list into n sublists
         before merging them together in sorted order.  
 
@@ -214,13 +264,15 @@ class Sort():
 
     @staticmethod
     def __merge_sort(items: list) -> list:
-        """Performs merge sort on a specified list.<br>
+        """Performs merge sort on a specified list and returns a new list. Does
+        not modify the original list.<br>
         Uses divide and conquer by continuously halfing the list into n sublists
         before merging them together in sorted order.  
 
         Comparision sort, not in-place, stable
 
         Time complexity: Θ(nlg(n)) all cases
+        Memory space: Θ(n)
 
         Args:
             items (list): The list to sort
@@ -268,7 +320,8 @@ class Sort():
 
     @staticmethod
     def counting_sort(items: list):
-        """Performs counting sort on a specified list.<br>
+        """Performs counting sort on a specified list. Modifies original list.
+        <br>
 
         Linear sort, not in-place, stable
 
@@ -281,7 +334,8 @@ class Sort():
 
     @staticmethod
     def radix_sort(items: list):
-        """Performs radix sort on a specified list of integers.<br>
+        """Performs radix sort on a specified list of integers. Modifies
+        original list.<br>
         Sorts digits by their least significant digit to their most 
         significant digit.
 
