@@ -56,6 +56,24 @@ def timeSorting(sorting_method, items):
     print(f'{f"{sorting_method.__name__}":>16}: {total_time:>6.4f} s')
 
 def binary_search(items, element):
+    """Returns the index of an element in a sorted list. If the element does not
+    exist in the list, -1 is returned.<br>
+
+    Continuously bisects a list and searches the half that could potentially
+    contain the element.
+
+    Time complexity:
+    <li>Θ(lg(n)) worst/average case</li>
+    <li>Θ(1) best case (already sorted)</li>
+
+    Args:
+        items (list): A sorted list
+        element (Any): An element to search for the index in the list
+
+    Returns:
+        int: The index of the element in the list. If the element is not in the
+        list, -1 is returned
+    """
     index = -1
     start = 0
     end = len(items) - 1

@@ -21,6 +21,7 @@ class Sort():
         Continuously iterates through the list and swaps adjacent item pairs
         until the list is sorted.
 
+        <h2>Properties</h2>
         Comparision sort, in-place, stable
 
         Time complexity: 
@@ -46,10 +47,12 @@ class Sort():
     @staticmethod
     def selection_sort(items: list):
         """Performs selection sort on the specified list. Modifies original 
-        list.<br>
+        list.
+        <br>
         Continuously iterates through the list and swaps the end of a growing
         sorted sublist with the minimum item of the remaining list.
 
+        <h2>Properties</h2>
         Comparision sort, in-place, unstable
 
         Time complexity: Θ(n^2) all cases<br>
@@ -71,10 +74,12 @@ class Sort():
     @staticmethod
     def insertion_sort(items: list):
         """Performs insertion sort on the specified list. Modifies original 
-        list.<br>
+        list.
+        <br>
         Iterates through the list and inserts each item into a growing 
         sublist of sorted items.
 
+        <h2>Properties</h2>
         Comparision sort, in-place, stable
 
         Time complexity:
@@ -94,10 +99,12 @@ class Sort():
 
     @staticmethod
     def tree_sort(items: list):
-        """Performs tree sort on a specified list. Modifies original list.<br>
+        """Performs tree sort on a specified list. Modifies original list.
+        <br>
         Iterates through the tree using in-order depth-first search and copies 
         the items in sorted order into the original list.
 
+        <h2>Properties</h2>
         Comparision sort, not in-place, stable
 
         Time complexity:
@@ -115,11 +122,13 @@ class Sort():
 
     @staticmethod
     def heapsort(items: list):
-        """Peforms heapsort on a specified list. Modifies original list.<br>
+        """Peforms heapsort on a specified list. Modifies original list.
+        <br>
         Transforms an unordered list into a max heap and continuously removes
         the top of the max heap to insert into the end of the list. Does not
         effectively use cashing.
 
+        <h2>Properties</h2>
         Comparision sort, in-place, unstable
 
         Time complexity: 
@@ -146,14 +155,16 @@ class Sort():
     @staticmethod
     def __heapify(index, heap_end, items: list):
         """Converts a sublist into a max heap.
+        <br>
         Assuming the left and right subtrees of a node at the index are max
         heaps, convert the tree starting from the node into a max heap.
 
-        Time complexity: Θ(lgn)
+        <h2>Properties</h2>
+        Time complexity: Θ(lg(n))
 
         Args:
-            index (integer): The index of the root of the tree
-            heap_end (integer): The length of a list representing a heap
+            index (int): The index of the root of the tree
+            heap_end (int): The length of a list representing a heap
             items (list): The list representing a heap
         """
         current = index
@@ -173,16 +184,25 @@ class Sort():
 
     @staticmethod
     def quicksort(items: list):
-        """Performs quicksort on the specified list. Modifies original list.<br>
+        """Performs quicksort on the specified list. Modifies original list.
+        <br>
         Partitions a list using the last element as a pivot key where 
         - elements to the left of the pivot are less than and equal to the pivot
         - elements to the right of the pivot
 
+        After the partition, recurses on the left and right halves.
+
+        <h2>Properties</h2>
         Comparision sort, in-place, unstable
 
         Time complexity:
-        <li>Θ(n^2) worst case</li>
+        <li>Θ(n^2) worst case(minimum or maximum is always selected as a pivot)
+        </li>
         <li>Θ(nlg(n)) average/best case</li>
+
+        Memory space: 
+        <li>Θ(n) worst case</li>
+        <li>Θ(lg(n)) average/best case</li>
 
         Args:
             items (list): The list to sort
@@ -191,37 +211,54 @@ class Sort():
     
     @staticmethod
     def __quicksort(items: list, start: int, stop: int):
-        """Performs quicksort on the specified list. Modifies original list.<br>
+        """Performs quicksort on the specified list. Does modify the original 
+        list.
+        <br>
         Partitions a list using the last element as a pivot key where 
         - elements to the left of the pivot are less than and equal to the pivot
         - elements to the right of the pivot
 
+        After the partition, recurses on the left and right halves.
+
+        <h2>Properties</h2>
         Comparision sort, in-place, unstable
 
         Time complexity:
-        <li>Θ(n^2) worst case</li>
+        <li>Θ(n^2) worst case(minimum or maximum is always selected as a pivot)
+        </li>
         <li>Θ(nlg(n)) average/best case</li>
+
+        Memory space: 
+        <li>Θ(n) worst case</li>
+        <li>Θ(lg(n)) average/best case</li>
 
         Args:
             items (list): The list to sort
+            start (int): The index of the leftmost element in the list
+            stop (int): The index of the rightmost element in the list
         """
         if start >= stop:
             return
 
         pivot_index = Sort.__lomuto_partition(items, start, stop)
+        # pivot_index = Sort.__hoare_partition(items, start, stop)
 
         Sort.__quicksort(items, start, pivot_index - 1)
         Sort.__quicksort(items, pivot_index + 1, stop)
 
     @staticmethod
     def __lomuto_partition(items: list, start: int, stop: int) -> int:
-        """Splits a list into two halves.<br>
-        Using the last element as a pivot, a list is bisected so that 
-        - elements left of the pivot are smaller than or equal to it
+        """Splits a list into two halves.
+        <br>
+        Using the last element as a pivot, iterates through the list, swapping 
+        each element greater than the pivot with a subsequent element less or 
+        equal to the pivot. The resulting list is bisected so that 
+        - elements left of the pivot are less than or equal to it
         - elements right of the pivot are larger than it
 
+        <h2>Properties</h2>
         Time complexity: Θ(n)
-
+        
         Args:
             items (list): The list to bisect
             start (int): The start index of the sublist of the list
@@ -248,10 +285,12 @@ class Sort():
 
     @staticmethod
     def merge_sort(items: list):
-        """Performs merge sort on a specified list. Modifies original list.<br>
+        """Performs merge sort on a specified list. Modifies original list.
+        <br>
         Uses divide and conquer by continuously halfing the list into n sublists
         before merging them together in sorted order.  
 
+        <h2>Properties</h2>
         Comparision sort, not in-place, stable
 
         Time complexity: Θ(nlg(n)) all cases
@@ -265,10 +304,12 @@ class Sort():
     @staticmethod
     def __merge_sort(items: list) -> list:
         """Performs merge sort on a specified list and returns a new list. Does
-        not modify the original list.<br>
+        not modify the original list.
+        <br>
         Uses divide and conquer by continuously halfing the list into n sublists
         before merging them together in sorted order.  
 
+        <h2>Properties</h2>
         Comparision sort, not in-place, stable
 
         Time complexity: Θ(nlg(n)) all cases
@@ -296,6 +337,7 @@ class Sort():
     def __merge(left: list, right: list) -> list:
         """Merges two lists together in sorted order.
 
+        <h2>Properties</h2>
         Time complexity: Θ(n)
         Memory space: Θ(n)
 
