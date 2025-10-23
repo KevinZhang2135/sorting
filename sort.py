@@ -258,6 +258,7 @@ class Sort():
 
         <h2>Properties</h2>
         Time complexity: Θ(n)
+        Memory space: Θ(1)
         
         Args:
             items (list): The list to bisect
@@ -325,11 +326,11 @@ class Sort():
         if len(items) > 1:
             mid = len(items) // 2
 
+            # Creates new temporary sublists of left and right
             left = Sort.__merge_sort(items[:mid])
             right = Sort.__merge_sort(items[mid:])
 
             items = Sort.__merge(left, right)
-            print(items)
 
         return items
 
@@ -339,7 +340,7 @@ class Sort():
 
         <h2>Properties</h2>
         Time complexity: Θ(n)
-        Memory space: Θ(n)
+        Memory space: Θ(1) 
 
         Args:
             left (list): One of the two lists to combine
