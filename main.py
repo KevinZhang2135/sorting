@@ -1,7 +1,6 @@
 from binary_search_tree import Tree
 from point import Point
 from sort import Sort
-from justin import justinheapsort
 
 from random import randint
 from time import perf_counter
