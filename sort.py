@@ -38,9 +38,9 @@ class Sort():
         while swapped:
             swapped = False
 
+            # Iterates and swaps adjacent inversions
             for j in range(0, len(items) - 1):
                 if items[j] > items[j + 1]:
-                    # Swaps adjacent items
                     Sort.__swap(j, j + 1, items)
                     swapped = True
 
@@ -91,8 +91,11 @@ class Sort():
         Args:
             items (list): The list to sort
         """
+        # Continuously adds the next element into the sorted sublist
         for i in range(1, len(items)):
             j = i
+
+            # Swaps the added element until the sublist is sorted again
             while j > 0 and items[j] < items[j - 1]:
                 Sort.__swap(j, j - 1, items)
                 j -= 1
@@ -240,8 +243,8 @@ class Sort():
         if start >= stop:
             return
 
-        pivot_index = Sort.__lomuto_partition(items, start, stop)
-        # pivot_index = Sort.__hoare_partition(items, start, stop)
+        # pivot_index = Sort.__lomuto_partition(items, start, stop)
+        pivot_index = Sort.__hoare_partition(items, start, stop)
 
         Sort.__quicksort(items, start, pivot_index - 1)
         Sort.__quicksort(items, pivot_index + 1, stop)
@@ -252,7 +255,9 @@ class Sort():
         <br>
         Using the last element as a pivot, iterates through the list, swapping 
         each element greater than the pivot with a subsequent element less or 
-        equal to the pivot. The resulting list is bisected so that 
+        equal to the pivot. 
+        
+        The resulting list is bisected so that 
         - elements left of the pivot are less than or equal to it
         - elements right of the pivot are larger than it
 
@@ -269,20 +274,62 @@ class Sort():
             int: The pivot index of quicksort
         """
 
-        pivot_key = items[stop]
+        # Pivot index will remain on the first larger element
         pivot_index = start
+        pivot_key = items[stop]
 
+        # Inversion index will traverse ahead to find the next smaller 
+        # element
         for inversion_index in range(start, stop):
             if items[inversion_index] <= pivot_key:
                 Sort.__swap(pivot_index, inversion_index, items)
                 pivot_index += 1
 
+        # Final swap to ensure the pivot key partitions the list in half
         Sort.__swap(pivot_index, stop, items)
         return pivot_index
     
     @staticmethod
     def __hoare_partition(items: list, start: int, stop: int) -> int:
-         pass
+        """Splits a list into two halves.
+        <br>
+        Using the first element as a pivot, iterates two pointers through the
+        list from opposite sides, swapping if the they are inversions straddling
+        the pivot.
+        
+        The resulting list is bisected so that 
+        - elements left of the pivot are less than or equal to it
+        - elements right of the pivot are larger than it
+
+        <h2>Properties</h2>
+        Time complexity: Θ(n)
+        Memory space: Θ(1)
+        
+        Args:
+            items (list): The list to bisect
+            start (int): The start index of the sublist of the list
+            stop (int): The stop index of the sublist of the list
+
+        Returns:
+            int: The pivot index of quicksort
+        """
+         
+        pivot_key = items[start]
+        
+        while True:
+            while items[start] < pivot_key:
+                start += 1
+
+            while items[stop] > pivot_key:
+                stop -= 1
+
+            if start >= stop: 
+                break
+            
+            Sort.__swap(start, stop, items)
+        
+        return start
+        
 
     @staticmethod
     def merge_sort(items: list):
@@ -307,8 +354,8 @@ class Sort():
         """Performs merge sort on a specified list and returns a new list. Does
         not modify the original list.
         <br>
-        Uses divide and conquer by continuously halfing the list into n sublists
-        before merging them together in sorted order.  
+        Uses divide and conquer by continuously halfing the list into 1-element 
+        sublists before merging them together in sorted order.
 
         <h2>Properties</h2>
         Comparision sort, not in-place, stable
@@ -351,7 +398,6 @@ class Sort():
             sorted order
         """
         left_index = 0
-
         while right:
             if left_index >= len(left) or right[0] < left[left_index]:
                 left.insert(left_index, right.pop(0))
@@ -363,28 +409,55 @@ class Sort():
 
     @staticmethod
     def counting_sort(items: list):
-        """Performs counting sort on a specified list. Modifies original list.
+        """Performs counting sort on a specified list of non-negative integers.
+        Modifies original list.
         <br>
+        Counts all occurrences of each element in a list to build a positions
+        list. Each element in the positions list corresponds to the location of
+        the associated index in the sorted list.
 
         Linear sort, not in-place, stable
 
         Time complexity: Θ(n + k) all cases where k is the range of item values
+        Memory space: Θ(n + k) all cases where k is the range of item values
 
         Args:
             items (list): The list to sort
         """
-        pass
+        positions = [0] * (k := max(items))
+        output = [0] * len(items)
+
+        # Counts all occurrences of each element
+        for item in items:
+            positions[item] += 1
+
+        # Adds each position by the cumulative sum of all previous positions to
+        # get the ending indices of each run of duplicate elements in the sorted
+        # list
+        for i in range(1, k + 1):
+            positions[i] += positions[i - 1]
+
+        # Inserts each element of the original list into a temporary list at
+        # their corresponding position
+        for i in range(len(items) - 1, -1, -1):
+            output[positions[i] - 1] = items[i]
+            positions[i] -= 1
+
+        items[:] = output
 
     @staticmethod
     def radix_sort(items: list):
-        """Performs radix sort on a specified list of integers. Modifies
-        original list.<br>
+        """Performs radix sort on a specified list of integers with d-digits
+        in base k = 10.
+        Modifies original list.
+        <br>
         Sorts digits by their least significant digit to their most 
-        significant digit.
+        significant digit using counting sort.
 
         Linear sort, in-place, stable
 
-        Time complexity: Θ(n)
+        Time complexity: Θ(d(n + k)) = Θ(n) where d is the number of digits of
+        element and k is the range of the digits
 
         Args:
             items (list): The list to sort

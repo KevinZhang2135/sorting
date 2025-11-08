@@ -94,4 +94,6 @@ def binary_search(items, element):
 
 
 if __name__ == '__main__':
-    pass
+    test_list = [randint(10, 99) for _ in range(10)]
+    Sort.quicksort(test_list)
+    print(test_list)
