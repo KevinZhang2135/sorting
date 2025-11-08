@@ -243,10 +243,14 @@ class Sort():
         if start >= stop:
             return
 
+        # Lomuto's partition
         # pivot_index = Sort.__lomuto_partition(items, start, stop)
-        pivot_index = Sort.__hoare_partition(items, start, stop)
+        # Sort.__quicksort(items, start, pivot_index - 1)
+        # Sort.__quicksort(items, pivot_index + 1, stop)
 
-        Sort.__quicksort(items, start, pivot_index - 1)
+        # Hoare's Partition
+        pivot_index = Sort.__hoare_partition(items, start, stop)
+        Sort.__quicksort(items, start, pivot_index) # Notice the bounds are different
         Sort.__quicksort(items, pivot_index + 1, stop)
 
     @staticmethod
@@ -327,8 +331,10 @@ class Sort():
                 break
             
             Sort.__swap(start, stop, items)
+            start += 1
+            stop -= 1
         
-        return start
+        return stop
         
 
     @staticmethod
