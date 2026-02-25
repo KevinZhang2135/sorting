@@ -111,7 +111,7 @@ class Sort():
         Comparision sort, not in-place, stable
 
         Time complexity:
-        <li>Θ(n^2) worst case (already sorted)</li>
+        <li>Θ(n^2) worst case (already sorte; degenerate tree)</li>
         <li>Θ(nlg(n)) average/best case</li>
 
         Memory space: Θ(n)
@@ -137,7 +137,7 @@ class Sort():
         Time complexity: 
         <li>Θ(nlg(n)) worst/average case</li>
         <li>Θ(n) best case (all elements are identical)</li>
-        
+
         Memory space: Θ(1)
 
         Args:
@@ -204,14 +204,14 @@ class Sort():
         <li>Θ(nlg(n)) average/best case</li>
 
         Memory space: 
-        <li>Θ(n) worst case</li>
+        <li>Θ(n) worst case</li><br>
         <li>Θ(lg(n)) average/best case</li>
 
         Args:
             items (list): The list to sort
         """
         Sort.__quicksort(items, 0, len(items) - 1)
-    
+
     @staticmethod
     def __quicksort(items: list, start: int, stop: int):
         """Performs quicksort on the specified list. Does modify the original 
@@ -232,7 +232,7 @@ class Sort():
         <li>Θ(nlg(n)) average/best case</li>
 
         Memory space: 
-        <li>Θ(n) worst case</li>
+        <li>Θ(n) worst case</li><br>
         <li>Θ(lg(n)) average/best case</li>
 
         Args:
@@ -250,7 +250,8 @@ class Sort():
 
         # Hoare's Partition
         pivot_index = Sort.__hoare_partition(items, start, stop)
-        Sort.__quicksort(items, start, pivot_index) # Notice the bounds are different
+        # Notice the bounds are different
+        Sort.__quicksort(items, start, pivot_index)
         Sort.__quicksort(items, pivot_index + 1, stop)
 
     @staticmethod
@@ -260,15 +261,15 @@ class Sort():
         Using the last element as a pivot, iterates through the list, swapping 
         each element greater than the pivot with a subsequent element less or 
         equal to the pivot. 
-        
+
         The resulting list is bisected so that 
         - elements left of the pivot are less than or equal to it
         - elements right of the pivot are larger than it
 
         <h2>Properties</h2>
-        Time complexity: Θ(n)
+        Time complexity: Θ(n)<br>
         Memory space: Θ(1)
-        
+
         Args:
             items (list): The list to bisect
             start (int): The start index of the sublist of the list
@@ -282,7 +283,7 @@ class Sort():
         pivot_index = start
         pivot_key = items[stop]
 
-        # Inversion index will traverse ahead to find the next smaller 
+        # Inversion index will traverse ahead to find the next smaller
         # element
         for inversion_index in range(start, stop):
             if items[inversion_index] <= pivot_key:
@@ -292,7 +293,7 @@ class Sort():
         # Final swap to ensure the pivot key partitions the list in half
         Sort.__swap(pivot_index, stop, items)
         return pivot_index
-    
+
     @staticmethod
     def __hoare_partition(items: list, start: int, stop: int) -> int:
         """Splits a list into two halves.
@@ -300,15 +301,15 @@ class Sort():
         Using the first element as a pivot, iterates two pointers through the
         list from opposite sides, swapping if the they are inversions straddling
         the pivot.
-        
+
         The resulting list is bisected so that 
         - elements left of the pivot are less than or equal to it
         - elements right of the pivot are larger than it
 
         <h2>Properties</h2>
-        Time complexity: Θ(n)
+        Time complexity: Θ(n)<br>
         Memory space: Θ(1)
-        
+
         Args:
             items (list): The list to bisect
             start (int): The start index of the sublist of the list
@@ -317,9 +318,9 @@ class Sort():
         Returns:
             int: The pivot index of quicksort
         """
-         
+
         pivot_key = items[start]
-        
+
         while True:
             while items[start] < pivot_key:
                 start += 1
@@ -327,15 +328,14 @@ class Sort():
             while items[stop] > pivot_key:
                 stop -= 1
 
-            if start >= stop: 
+            if start >= stop:
                 break
-            
+
             Sort.__swap(start, stop, items)
             start += 1
             stop -= 1
-        
+
         return stop
-        
 
     @staticmethod
     def merge_sort(items: list):
@@ -347,7 +347,7 @@ class Sort():
         <h2>Properties</h2>
         Comparision sort, not in-place, stable
 
-        Time complexity: Θ(nlg(n)) all cases
+        Time complexity: Θ(nlg(n)) all cases<br>
         Memory space: Θ(n)
 
         Args:
@@ -366,7 +366,7 @@ class Sort():
         <h2>Properties</h2>
         Comparision sort, not in-place, stable
 
-        Time complexity: Θ(nlg(n)) all cases
+        Time complexity: Θ(nlg(n)) all cases<br>
         Memory space: Θ(n)
 
         Args:
@@ -392,7 +392,7 @@ class Sort():
         """Merges two lists together in sorted order.
 
         <h2>Properties</h2>
-        Time complexity: Θ(n)
+        Time complexity: Θ(n)<br>
         Memory space: Θ(1) 
 
         Args:
@@ -424,14 +424,14 @@ class Sort():
 
         Linear sort, not in-place, stable
 
-        Time complexity: Θ(n + k) all cases where k is the range of item values
+        Time complexity: Θ(n + k) all cases where k is the range of item values<br>
         Memory space: Θ(n + k) all cases where k is the range of item values
 
         Args:
             items (list): The list to sort
         """
         positions = [0] * (k := max(items))
-        output = [0] * len(items)
+        sorted_temp = [0] * len(items)
 
         # Counts all occurrences of each element
         for item in items:
@@ -446,10 +446,10 @@ class Sort():
         # Inserts each element of the original list into a temporary list at
         # their corresponding position
         for i in range(len(items) - 1, -1, -1):
-            output[positions[i] - 1] = items[i]
+            sorted_temp[positions[i] - 1] = items[i]
             positions[i] -= 1
 
-        items[:] = output
+        items[:] = sorted_temp
 
     @staticmethod
     def radix_sort(items: list):

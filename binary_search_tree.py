@@ -1,6 +1,7 @@
 from collections.abc import Iterable
 from typing import Any
 
+
 class Tree:
     class __Node:
         def __init__(self, value: Any):
@@ -178,38 +179,37 @@ class Tree:
         Returns:
             _Node:  The reference of the node to the parent node
         """
+        # Searches left subtree
         if value < node.value:
             if node.left:
                 node.left = self.__pop(node.left, value)
 
+        # Searches right subtree
         elif value > node.value:
             if node.right:
                 node.right = self.__pop(node.right, value)
 
+        # Key to delete has been found
         else:
+            # Replaces with the in-order predecessor
             if node.left:
                 left_max = node.left.max()
                 node.value = left_max
                 node.left = self.__pop(node.left, left_max)
 
+            # Replaces with the in-order successor
             elif node.right:
+
                 right_min = node.right.min()
                 node.value = right_min
                 node.right = self.__pop(node.right, right_min)
 
+            # Leaf node; directly remove
             else:
                 node = None
                 self.__length -= 1
 
         return node
-
-    def __len__(self) -> int:
-        """Returns the number of items in the tree.
-
-        Returns:
-            int: The number of items in the tree
-        """
-        return self.__length
 
     def values(self) -> list:
         """Returns a list of of all the items in the tree in sorted order.
@@ -218,6 +218,14 @@ class Tree:
             list: List of all the items in the tree in sorted order
         """
         return self.__root.values()
+
+    def __len__(self) -> int:
+        """Returns the number of items in the tree.
+
+        Returns:
+            int: The number of items in the tree
+        """
+        return self.__length
 
     def __iter__(self) -> Iterable:
         """Returns an iterator of all items in order.
