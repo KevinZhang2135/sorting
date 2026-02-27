@@ -1,5 +1,6 @@
 from collections.abc import Iterable
 from typing import Any
+from random import randint
 
 
 class Tree:
@@ -191,18 +192,26 @@ class Tree:
 
         # Key to delete has been found
         else:
-            # Replaces with the in-order predecessor
-            if node.left:
-                left_max = node.left.max()
-                node.value = left_max
-                node.left = self.__pop(node.left, left_max)
+            # Both children exist; randomize whether to replace with
+            # predecessor or successor
+            if node.left and node.right:
+                # Replaces with the in-order predecessor
+                if randint(0, 1):
+                    left_max = node.left.max()
+                    node.value = left_max
+                    node.left = self.__pop(node.left, left_max)
 
-            # Replaces with the in-order successor
-            elif node.right:
-
-                right_min = node.right.min()
-                node.value = right_min
-                node.right = self.__pop(node.right, right_min)
+                # Replaces with the in-order successor
+                else:
+                    right_min = node.right.min()
+                    node.value = right_min
+                    node.right = self.__pop(node.right, right_min)
+            
+            # One child exists; replaces with child
+            elif bool(node.left) != bool(node.right):
+                child = node.left if node.left else node.right
+                node = child
+                self.__length -= 1
 
             # Leaf node; directly remove
             else:

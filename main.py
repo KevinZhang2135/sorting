@@ -94,7 +94,4 @@ def binary_search(items, element):
 
 
 if __name__ == '__main__':
-    # testSorting(Sort.quicksort, 1000)
-    items = [8, 3, 14, 6, 1, 10, 5]
-    Sort.quicksort(items)
-    print(items)
+    testSorting(Sort.tree_sort, 1000)
